@@ -14,5 +14,6 @@ $page_content = include_template("main.php", [
  ]);
 
  print($layout_content);
+ 
 
 

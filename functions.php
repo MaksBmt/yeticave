@@ -35,10 +35,15 @@ function get_time_left($date)
     return $res;
 }
 
+/**
+ * Возвращает массив данных после запроса к базе данных
+ * @return array
+ */
 function get_data($con,$sql)
 {
     $result = mysqli_query($con, $sql);
     if ($result) {
+        // var_dump(mysqli_fetch_all($result, MYSQLI_ASSOC));
       return mysqli_fetch_all($result, MYSQLI_ASSOC);
     } else {
         $error = mysqli_error($con);
