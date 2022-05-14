@@ -2,27 +2,18 @@
 require_once("helpers.php");
 require_once("functions.php");
 require_once("init.php");
+require_once("functions.php");
 require_once("models.php");
+
+$sql_cat = "SELECT character_code, name_category FROM categories";
+$sql_lots = get_query_list_lots('2019-04-15');
 
 if (!$con) {
     $error = mysqli_connect_error();
+    $page_content = include_template("error.php", ["error"=>$error]); 
 } else {
-    $sql = "SELECT character_code, name_category FROM categories";
-    $result = mysqli_query($con, $sql);
-    if ($result) {
-        $categories = mysqli_fetch_all($result, MYSQLI_ASSOC);
-    } else {
-        $error = mysqli_error($con);
-    }
-}
-
-$sql = get_query_list_lots('2021-07-15');
-
-$res = mysqli_query($con, $sql);
-if ($res) {
-   $lots = mysqli_fetch_all($res, MYSQLI_ASSOC);
-} else {
-   $error = mysqli_error($con);
+    $categories = get_data($con, $sql_cat);
+    $lots = get_data($con, $sql_lots);
 }
 
 $page_content = include_template("main.php", [
@@ -36,6 +27,3 @@ $page_content = include_template("main.php", [
  ]);
 
  print($layout_content);
- 
-
-

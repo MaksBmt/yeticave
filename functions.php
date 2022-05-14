@@ -43,7 +43,6 @@ function get_data($con,$sql)
 {
     $result = mysqli_query($con, $sql);
     if ($result) {
-        // var_dump(mysqli_fetch_all($result, MYSQLI_ASSOC));
       return mysqli_fetch_all($result, MYSQLI_ASSOC);
     } else {
         $error = mysqli_error($con);
