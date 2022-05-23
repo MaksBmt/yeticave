@@ -9,7 +9,7 @@
       $price = ceil($price);
       $price = number_format($price, 0, '', ' ');
       return "$price Р";
-  }
+  };
 
   /**
  * Возвращеет количество целых часов и остатка минут от настоящего времени до даты
@@ -33,7 +33,7 @@ function get_time_left($date)
     $res[] = $minutes;
 
     return $res;
-}
+};
 
 /**
  * Возвращает массив данных после запроса к базе данных
@@ -47,4 +47,51 @@ function get_data($con,$sql)
     } else {
         $error = mysqli_error($con);
     } 
+};
+
+/**
+ * Валидирует поле категории, если такой категории нет в списке
+ * возвращает сообщение об этом
+ * @param int $id категория, которую ввел пользователь в форму
+ * @param array $allowed_list Список существующих категорий
+ * @return string Текст сообщения об ошибке
+ */
+function validate_category ($id, $allowed_list) {
+    if (!in_array($id, $allowed_list)) {
+        return "Указана несуществующая категория";
+    }
 }
+/**
+ * Проверяет что содержимое поля является числом больше нуля
+ * @param string $num число которое ввел пользователь в форму
+ * @return string Текст сообщения об ошибке
+ */
+function validate_number ($num) {
+    if (!empty($num)) {
+        $num *= 1;
+        if (is_int($num) && $num > 0) {
+            return NULL;
+        }
+        return "Содержимое поля должно быть целым числом больше ноля";
+    }
+};
+
+/**
+ * Проверяет что дата окончания торгов не меньше одного дня
+ * @param string $date дата которую ввел пользователь в форму
+ * @return string Текст сообщения об ошибке
+ */
+function validate_date ($date) {
+    if (is_date_valid($date)) {
+        $now = date_create("now");
+        $d = date_create($date);
+        $diff = date_diff($d, $now);
+        $interval = date_interval_format($diff, "%d");
+
+        if ($interval < 1) {
+            return "Дата должна быть больше текущей не менее чем на один день";
+        };
+    } else {
+        return "Содержимое поля «дата завершения» должно быть датой в формате «ГГГГ-ММ-ДД»";
+    }
+};

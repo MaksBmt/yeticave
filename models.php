@@ -23,4 +23,14 @@ function get_query_list_lots($date)
     WHERE l.id = '$id'";
  }
 
- $sql_cat = "SELECT character_code, name_category FROM categories";
+ $sql_cat = "SELECT * FROM categories";
+
+ /**
+ * Формирует SQL-запрос для создания нового лота
+ * @param integer $user_id id пользователя
+ * @return string SQL-запрос
+ */
+function get_query_create_lot ($user_id)
+ {
+    return "INSERT INTO lots (title, category_id, lot_description, start_price, step, date_finish, img, user_id) VALUES (?, ?, ?, ?, ?, ?, ?, '$user_id');";
+}
