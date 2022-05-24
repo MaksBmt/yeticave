@@ -5,14 +5,13 @@ require_once("init.php");
 require_once("functions.php");
 require_once("models.php");
 
-// $categories = get_categories($con);
 if (!$con) {
   $error = mysqli_connect_error();
   $page_content = include_template("error.php", ["error"=>$error]); 
 } else {
   $categories = get_data($con, $sql_cat);
   $categories_id = array_column($categories, "id");
-// var_dump($categories_id);
+
   $page_content = include_template("add-lot.php", [
     "categories" => $categories
   ]); 
@@ -58,7 +57,6 @@ if (!$con) {
 
   $errors = array_filter($errors);
 
-  // error_reporting(E_ALL); var_dump($_FILES['lot_img']['error']);
   if (!empty($_FILES["lot_img"]["name"])) {
    
     $tmp_name = $_FILES["lot_img"]["tmp_name"];
@@ -74,7 +72,6 @@ if (!$con) {
     if ($ext) {
         $filename = uniqid() . $ext;
         $lot["path"] = "uploads/". $filename;
-        move_uploaded_file($_FILES["lot_img"]["tmp_name"], "uploads/". $filename);
     } else {
         $errors["lot_img"] = "Допустимые форматы файлов: jpg, jpeg, png";
     }
@@ -83,12 +80,15 @@ if (!$con) {
 }
 
   if (count($errors)) {
+   
     $page_content = include_template("add-lot.php", [
         "categories" => $categories,
         "lot" => $lot,
         "errors" => $errors
      ]);
 } else {
+  move_uploaded_file($_FILES["lot_img"]["tmp_name"], "uploads/". $filename);
+
   $sql = get_query_create_lot(2);
   $stmt = db_get_prepare_stmt_version($con, $sql, $lot);
   $res = mysqli_stmt_execute($stmt);
