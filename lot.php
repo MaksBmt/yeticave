@@ -29,7 +29,9 @@ if (!$con) {
   $layout_content = include_template("layout.php",[
     "content" => $page_content,
     "categories" => $categories,
-    "title" => "Лот № '$lot_id'"
+    "title" => "Лот № '$lot_id'",
+    "is_auth" => $is_auth,
+    "user_name" => $user_name
 ]);
   print($layout_content);
 }

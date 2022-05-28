@@ -12,6 +12,21 @@ if (!$con) {
   $categories = get_data($con, $sql_cat);
   $categories_id = array_column($categories, "id");
 
+  if (!$is_auth) {
+    $page_content = include_template("403.php", [
+      "categories" => $categories
+    ]);
+    $layout_content = include_template("layout.php", [
+        "content" => $page_content,
+        "categories" => $categories,
+        "title" => "Доступ запрещен",
+        "is_auth" => $is_auth,
+        "user_name" => $user_name
+    ]);
+    print($layout_content);
+    die();
+}
+
   $page_content = include_template("add-lot.php", [
     "categories" => $categories
   ]); 
@@ -107,7 +122,9 @@ if ($res) {
   $layout_content = include_template("layout.php",[
     "content" => $page_content,
     "categories" => $categories,
-    "title" => "Добавить лот"
+    "title" => "Добавить лот",
+    "is_auth" => $is_auth,
+    "user_name" => $user_name
 ]);
   print($layout_content);
 }

@@ -11,7 +11,7 @@
     <form class="form form--add-lot container <?= $classname; ?>" action="add.php" method="post" enctype="multipart/form-data"> <!-- form--invalid -->
       <h2>Добавление лота</h2>
       <div class="form__container-two">
-      <?php $classname = isset($errors["lot-name"]) ? "form__item--invalid" : ""; ?>
+       <?php $classname = isset($errors["lot-name"]) ? "form__item--invalid" : ""; ?>      
         <div class="form__item <?= $classname; ?>"> <!-- form__item--invalid -->
           <label for="lot-name">Наименование <sup>*</sup></label>
           <input id="lot-name" type="text" name="lot-name" placeholder="Введите наименование лота" value="<?= $lot['lot-name'] ;?>">

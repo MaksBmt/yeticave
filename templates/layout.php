@@ -1,7 +1,8 @@
 <?php
-$is_auth = rand(0, 1);
+// $is_auth = rand(0, 1);
 
-$user_name = 'Макс'; // укажите здесь ваше имя
+// $user_name = 'Макс'; // укажите здесь ваше имя
+// var_dump($is_auth, $user_name);
 ?>
 
 <!DOCTYPE html>
@@ -30,17 +31,17 @@ $user_name = 'Макс'; // укажите здесь ваше имя
         <nav class="user-menu">
         <?php if($is_auth): ?>
             <div class="user-menu__logged">
-             <p><?=$user_name ?></p>
+             <p><?=$_SESSION['name'] ?></p>
              <a class="user-menu__bets" href="pages/my-bets.html">Мои ставки</a>
-             <a class="user-menu__logout" href="#">Выход</a>
+             <a class="user-menu__logout" href="logout.php">Выход</a>
             </div>
          <?php else: ?>
          <ul class="user-menu__list">
             <li class="user-menu__item">
-               <a href="#">Регистрация</a>
+               <a href="signup.php">Регистрация</a>
             </li>
             <li class="user-menu__item">
-               <a href="#">Вход</a>
+               <a href="signin.php">Вход</a>
             </li>
          </ul>
         <?php endif; ?>    

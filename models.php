@@ -23,7 +23,18 @@ function get_query_list_lots($date)
     WHERE l.id = '$id'";
  }
 
+ /**
+ * Формирует SQL-запрос для получения данных юзера по его email
+ * @param string $email электронный адрес 
+ * @return string SQL-запрос
+ */
+function get_query_email($email)
+{
+    return "SELECT id, email, user_name, user_password FROM users WHERE email = '$email'";
+}
+
  $sql_cat = "SELECT * FROM categories";
+ $sql_users = "SELECT email, user_name FROM users";
 
  /**
  * Формирует SQL-запрос для создания нового лота
@@ -33,4 +44,35 @@ function get_query_list_lots($date)
 function get_query_create_lot ($user_id)
  {
     return "INSERT INTO lots (title, category_id, lot_description, start_price, step, date_finish, img, user_id) VALUES (?, ?, ?, ?, ?, ?, ?, '$user_id');";
+}
+
+/**
+ * Возвращает массив данных пользователей: адресс электронной почты и имя
+ * @param $con Подключение к MySQL
+ * @return [Array | String] $users_data Двумерный массив с именами и емейлами пользователей
+ * или описание последней ошибки подключения
+ */
+function get_users_data($con) {
+    if (!$con) {
+    $error = mysqli_connect_error();
+    return $error;
+    } else {
+        $sql = "SELECT email, user_name FROM users";
+        $result = mysqli_query($con, $sql);
+        if ($result) {
+            $users_data= get_arrow($result);
+            return $users_data;
+        }
+        $error = mysqli_error($con);
+        return $error;
+    }
+}
+
+/**
+ * Формирует SQL-запрос для регистрации нового пользователя
+ * @param integer $user_id id пользователя
+ * @return string SQL-запрос
+ */
+function get_query_create_user() {
+    return "INSERT INTO users (date_registration, email, user_password, user_name, contacts) VALUES (NOW(), ?, ?, ?, ?);";
 }

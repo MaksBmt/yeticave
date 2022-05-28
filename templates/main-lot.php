@@ -18,6 +18,7 @@
           <p class="lot-item__category">Категория: <span><?= $lot[0]["name_category"]; ?></span></p>
           <p class="lot-item__description"><?= $lot[0]["lot_description"]; ?></p>
         </div>
+        <?php  if(isset($_SESSION['name'])): ?>
         <div class="lot-item__right">
           <div class="lot-item__state">
           <?php $res = get_time_left(htmlspecialchars($lot[0]["date_finish"])) ?>
@@ -98,5 +99,6 @@
             </table>
           </div>
         </div>
+        <?php endif; ?>
       </div>
     </section> 
