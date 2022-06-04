@@ -24,6 +24,18 @@ function get_query_list_lots($date)
  }
 
  /**
+  * Формирует SQL-запрос для получения массива лотов по фразе из формы поиска
+  * @param string $serch Строка запроса
+  * @param string SQL-запрос
+  */
+  function get_query_search($search)
+  {
+      return "SELECT l.title, l.lot_description, l.start_price, l.img, l.date_finish, l.date_creation, l.id, cat.name_category FROM lots l
+      JOIN categories cat ON l.category_id = cat.id
+      WHERE MATCH(l.title, l.lot_description) AGAINST('$search')";
+  }
+
+ /**
  * Формирует SQL-запрос для получения данных юзера по его email
  * @param string $email электронный адрес 
  * @return string SQL-запрос
